@@ -37,9 +37,7 @@ class ExplorerHome extends Component {
   render() {
     return (
 <View style={{flex: 1, flexDirection: 'column'}}>
-<View style={{height: "20%"}}>
-</View>
-  <View style={{height: "20%", flexDirection: 'row', borderBottomWidth: 2, borderBottomColor: 'white' }}>
+  <View style={{height: "25%", flexDirection: 'row', borderBottomWidth: 2, borderBottomColor: 'white' }}>
     <View style={{flex: 3, flexDirection: 'column'}}>
       <View style={{flex: 3}}>
             <ImageBackground source={rectangle} style={{height: "100%", width: "100%",
@@ -59,11 +57,11 @@ class ExplorerHome extends Component {
     </ImageBackground>
     </View>
   </View>
-  <View style={{height: "20%"}}>
+  <View style={{height: "25%"}}>
   <ImageBackground source={brows} style={{height: "100%", width: "100%", borderBottomWidth: 2, borderBottomColor: 'white'}}>
   </ImageBackground>
   </View>
-  <View style={{height: "20%", flexDirection: 'row', borderBottomWidth: 2, borderBottomColor: 'white'}}>
+  <View style={{height: "25%", flexDirection: 'row', borderBottomWidth: 2, borderBottomColor: 'white'}}>
     <View style={{flex: 3}}>
     <ImageBackground source={trainer} style={{height: "100%", width: "100%"}}>
     </ImageBackground>
@@ -81,7 +79,7 @@ class ExplorerHome extends Component {
       </View>
     </View>
   </View>
-  <View style={{height: "20%", flexDirection: 'row'}}>
+  <View style={{height: "25%", flexDirection: 'row'}}>
   <View style={{flex: 3}}>
   <ImageBackground source={therapist} style={{height: "100%", width: "100%"}}>
   </ImageBackground>

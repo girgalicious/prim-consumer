@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, ImageBackground, TouchableHighlight} from 'react-native';
 import { connect } from 'react-redux';
+import LinearGradient from 'react-native-linear-gradient';
+import haircut from '../../assets/images/haircut.png';
+import coloring from '../../assets/images/coloring.png';
 
 class Appointments extends Component {
 
@@ -17,10 +20,41 @@ class Appointments extends Component {
   componentWillReceiveProps() {
   }
 
+  navigateToAppointment = () => {
+      this.props.navigation.navigate('AppointmentDetail', {
+                            appointment: {}
+                          });
+  }
+
   render() {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text>Appointments!</Text>
+      <View>
+        <View style={{ alignItems: "center" }}>
+          <Text style={{fontWeight: 'bold', marginTop: 20}}>My Appointments</Text>
+        </View>
+        <View>
+        <Text style={{marginLeft: 20, fontWeight: 'bold', marginTop: 20}}>
+          Upcoming
+        </Text>
+        </View>
+        <TouchableHighlight onPress={() =>  this.navigateToAppointment()}>
+          <View style={{ marginLeft: 20, marginTop: 20, marginRight: 20}}>
+                <ImageBackground source={coloring} style={{ height: 150, width: 330}} imageStyle={{ borderRadius: 5 }}>
+                  <LinearGradient colors={['rgba(23, 25, 29, 0.4)','rgba(23, 25, 29, 0.4)']} style={{height: '100%'}}>
+                      <Text style={{fontWeight: 'bold', color: 'white', marginTop: 5, marginLeft: 5}} >Tuesday, Nov 18</Text>
+                      <Text style={{fontWeight: 'bold', color: 'white', position: 'absolute', bottom: 10, left: 5}} >Coloring +</Text>
+                      <Text style={{fontWeight: 'bold', color: 'white', position: 'absolute', bottom: 10, right: 5}} >$150</Text>
+                  </LinearGradient>
+                </ImageBackground>
+          </View>
+        </TouchableHighlight>
+        <View style={{ marginLeft: 20, marginTop: 20, marginRight: 20}}>
+              <ImageBackground source={haircut} style={{ height: 150, width: 330}} imageStyle={{ borderRadius: 5 }}>
+                <Text style={{fontWeight: 'bold', color: 'white', marginTop: 5, marginLeft: 5}} >Tuesday, Dec 14</Text>
+                <Text style={{fontWeight: 'bold', color: 'white', position: 'absolute', bottom: 10, left: 5}} >Mens haircut +</Text>
+                <Text style={{fontWeight: 'bold', color: 'white', position: 'absolute', bottom: 10, right: 5}} >$70</Text>
+              </ImageBackground>
+        </View>
       </View>
     );
   }

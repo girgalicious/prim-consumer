@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 import { connect } from 'react-redux';
+import LinearGradient from 'react-native-linear-gradient';
+import List from '../../../components/provider/list';
 
 class Providers extends Component {
 
@@ -20,7 +22,7 @@ class Providers extends Component {
   render() {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text>Providers</Text>
+        <List></List>
       </View>
     );
   }

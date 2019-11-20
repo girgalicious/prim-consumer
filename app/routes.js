@@ -2,12 +2,22 @@ import React from 'react';
 import { Text, View, Image, TouchableOpacity } from 'react-native';
 import { createAppContainer, createStackNavigator, createSwitchNavigator } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
+import { Icon } from 'react-native-elements'
+
+import Settings from './views/settings/Settings'
+
+import Appointments from './views/appointments/Appointments'
+import AppointmentDetail from './views/appointments/detail/detail'
 
 import ExplorerHome from './views/explorer/Home'
-import Settings from './views/settings/Settings'
-import Appointments from './views/appointments/Appointments'
 import ExplorerDetail from './views/explorer/detail/detail'
+import Card from './components/provider/card'
+import ProviderDetail from './views/explorer/providers/detail/detail'
+import ServiceDetail from './views/explorer/services/detail/detail'
 
+import Login from './views/account/login/login'
+import ResetPassword from './views/account/reset/reset'
+import SignUp from './views/account/signup/signup'
 
 import logo from './assets/images/logo.png';
 import HomeIcon from './assets/images/search.png';
@@ -15,6 +25,8 @@ import HomeIconGrey from './assets/images/search.png';
 import settingsIcon from './assets/images/user.png';
 import settingsColorIcon from './assets/images/user.png';
 import calendarIcon from './assets/images/calendar.png';
+
+
 
 const headerConf = {
   headerLayoutPreset: 'center',
@@ -38,11 +50,13 @@ const headerConf = {
           alignItems: 'center', flexDirection: 'row', justifyContent: 'center', borderBottomWidth: 0
         }}
         >
-          <Image
-            source={navigation.getParam('isShownLeftOption') === true ? require('../app/assets/images/arrowBack.png') : ''}
-                // source={require('../../assets/images/arrowBack.png')}
-            style={{ width: 25, height: 25, marginLeft: 25, }}
-          />
+        {
+          navigation.getParam('isShownLeftOption') === true ?
+          <Icon
+          name='arrow-left'
+          type='font-awesome'
+          iconStyle={{ marginLeft: 25}} /> : null
+        }
         </View>
       </TouchableOpacity>
     ),
@@ -52,13 +66,67 @@ const headerConf = {
   }),
 };
 
+const AccountStack = createStackNavigator({
+  SignUp: SignUp,
+}, {headerMode: 'none'});
+
 const ExplorerStack = createStackNavigator({
   HomePage: ExplorerHome,
-  ExplorerDetail
+  ExplorerDetail,
+  Card,
+  ProviderDetail: {
+        screen: ProviderDetail,
+        navigationOptions: ({ navigation }) => ({
+            headerTransparent: true,
+            headerStyle: {
+              color: 'white',
+              backgroundColor: 'transparent',
+              borderBottomWidth: 0
+            },
+            headerTitle: "",
+            headerLeft: (
+              <TouchableOpacity onPress={() => {
+                navigation.navigate(navigation.getParam('leftPage'))
+              }}
+              >
+                <Icon
+                  name='arrow-left'
+                  color="white"
+                  type='font-awesome'
+                  iconStyle={{ marginLeft: 25}} />
+            </TouchableOpacity>
+          )
+        })
+    },
+  ServiceDetail: {
+          screen: ServiceDetail,
+          navigationOptions: ({ navigation }) => ({
+              headerTransparent: true,
+              headerStyle: {
+                color: 'white',
+                backgroundColor: 'transparent',
+                borderBottomWidth: 0
+              },
+              headerTitle: "",
+              headerLeft: (
+                <TouchableOpacity onPress={() => {
+                  navigation.navigate(navigation.getParam('leftPage'))
+                }}
+                >
+                  <Icon
+                    name='arrow-left'
+                    color="white"
+                    type='font-awesome'
+                    iconStyle={{ marginLeft: 25}} />
+              </TouchableOpacity>
+            )
+          })
+      },
 }, headerConf);
 
 const AppointmentsStack = createStackNavigator({
-  Appointments: Appointments
+  Appointments: Appointments,
+  AppointmentDetail
 }, headerConf);
 
 const ProfileStack = createStackNavigator({
@@ -101,7 +169,7 @@ const BottomStack = createBottomTabNavigator({
 
 export default createAppContainer(createSwitchNavigator(
   {
-
+    SignUp: AccountStack,
     HomePage: ExplorerStack,
     Appointments: AppointmentsStack,
     Profile: ProfileStack,
