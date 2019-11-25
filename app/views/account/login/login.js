@@ -44,6 +44,18 @@ class Login extends Component {
   componentWillReceiveProps() {
   }
 
+  explore = () => {
+    this.props.navigation.navigate('Bottom');
+  }
+
+  logIn = () => {
+    this.props.navigation.navigate('Bottom');
+  }
+
+  signUp = () => {
+    this.props.navigation.navigate('SignUp');
+  }
+
   render() {
     return (
       <View>
@@ -73,9 +85,9 @@ class Login extends Component {
                 keyboardType="email-address"
                 onChangeText={(value) => console.log(value)}
               />
-              <Button title="LOG IN" style={styles.button} />
-              <Text style={{color: 'white', textAlign: 'center', padding: 10}}>Don’t have an account? Sign Up</Text>
-              <Text style={{color: 'white', textAlign: 'center', padding: 10}}>Continue as a guest</Text>
+              <Button title="LOG IN" style={styles.button} onPress={() => this.logIn()}/>
+              <Text style={{color: 'white', textAlign: 'center', padding: 10}} onPress={() => this.signUp()}>Don’t have an account? Sign Up</Text>
+              <Text style={{color: 'white', textAlign: 'center', padding: 10}} onPress={() => this.explore()}>Continue as a guest</Text>
             </View>
           </View>
         </ImageBackground>

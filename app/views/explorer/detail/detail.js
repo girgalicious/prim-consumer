@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import Services from '../services/services';
 import Providers from '../providers/providers';
+import { withTheme } from 'react-native-elements';
 
 const styles = StyleSheet.create({
   scene: {
@@ -42,7 +43,7 @@ class ExplorerDetail extends Component {
 };
 
 render(){
-const { navigation } = this.props;
+const { navigation, theme } = this.props;
 const service = navigation.getParam('service');
   return (
     <TabView
@@ -56,7 +57,7 @@ const service = navigation.getParam('service');
       renderTabBar={props =>
   <TabBar
     {...props}
-    indicatorStyle={{ backgroundColor: 'green' }}
+    indicatorStyle={{ backgroundColor: theme.colors.primary }}
     style={{ backgroundColor: 'white', color: 'black' }}
     activeColor="black"
     inactiveColor="grey"
@@ -71,4 +72,4 @@ function mapStateToProps(state) {
   return {
   };
 }
-export default connect(mapStateToProps, { })(ExplorerDetail);
+export default connect(mapStateToProps, { })(withTheme(ExplorerDetail));

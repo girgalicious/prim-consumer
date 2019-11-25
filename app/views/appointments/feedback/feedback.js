@@ -1,84 +1,140 @@
 import React, { Component } from 'react';
-import { Dimensions, StyleSheet, Text, View, ImageBackground, Image, FlatList, TextInput } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import { Button, Avatar, Icon, withTheme, Divider } from 'react-native-elements';
+import StarRating from 'react-native-star-rating';
 import { connect } from 'react-redux';
-import { Button } from 'react-native-elements';
-import login from '../../../assets/images/login.png';
 
-const DEVICE_WIDTH = Dimensions.get('window').width;
-const DEVICE_HEIGHT = Dimensions.get('window').height;
+const styles = (theme) => StyleSheet.create({
+button: {
+  backgroundColor: 'white',
+  borderColor: theme.colors.primary,
+  borderWidth: 1
+},
+buttonPress: {
+    borderColor: "#000066",
+    backgroundColor: "#000066",
+    borderWidth: 1,
+    borderRadius: 10
+}
+});
 
-const styles = StyleSheet.create({
-    input: {
-        backgroundColor: 'white',
-        width: DEVICE_WIDTH - 80,
-        height: 45,
-        marginHorizontal: 20,
-        paddingLeft: 15,
-        //borderRadius: 20,
-        color: 'black',
-        marginTop:10,
-      },
-    button: {
-      width: DEVICE_WIDTH - 80,
-      padding: 10,
-      margin: 20
-    }
-})
-
-class Login extends Component {
-
-  state = {
-    email: ''
-  }
+class Feedback extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      rating: 0,
+      buttons: [
+        {pressed: false},
+        {pressed: false},
+        {pressed: false},
+        {pressed: false}
+      ]
+    }
   }
 
   componentWillMount() {
   }
 
   componentDidMount() {
+    this.props.navigation.setParams({
+      leftPage: 'AppointmentDetail',
+      rightPage: '',
+      isShownLeftOption: true,
+      isShownRightOption: false,
+      isRightOptionAsForm: false,
+    });
   }
 
   componentWillReceiveProps() {
   }
 
+  setRating = (rating) => {
+    this.setState(previousState => (
+  { rating: rating }
+))
+  }
+
+  setButtons = (index) => {
+    this.setState(previousState => {
+      buttons = previousState.buttons;
+      buttons[index].pressed = !buttons[index].pressed;
+      return {
+        ...previousState,
+        buttons
+      }
+    })
+  }
+
   render() {
+    const {theme, state} = this.props;
     return (
       <View>
-        <ImageBackground source={login} style={{height: "100%", width: "100%"}}>
-          <View style={{ justifyContent: "center", alignItems: "center", height: '50%' }}>
-            <Text style={{color: 'white', fontSize: 40, fontWeight: 'bold'}}>PRIM</Text>
-          </View>
-          <View style={{height: '50%', alignItems: "center", justifyContent: 'center'}}>
-            <View style={{position: 'relative', bottom: 0}}>
-              <TextInput
-                placeholder="Email / Phone Number"
-                placeholderTextColor="#cecece"
-                type='textinput'
-                value={this.email}
-                style={styles.input}
-                autoCapitalize="none"
-                keyboardType="email-address"
-                onChangeText={(value) => console.log(value)}
+        <View style={{marginTop: 150, width: '100%', height: 100, alignItems: "center", justifyContent: 'center'}}>
+          <Avatar rounded source={{
+            uri:
+              'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
+          }} size={'medium'} containerStyle={{marginLeft: 25}}/>
+          <Text style={{}}>Bessie Cooper</Text>
+        </View>
+        <View style={{width: '100%', height: 50, alignItems: "center", justifyContent: 'center'}}>
+          <Text style={{fontWeight: 'bold', fontSize: 20}}>How was your experience?</Text>
+        </View>
+        <View style={{marginLeft: '25%', width: '50%', justifyContent: 'center'}}>
+          <StarRating
+            disabled={false}
+            maxStars={5}
+            emptyStarColor={theme.colors.primary}
+            rating={this.state.rating}
+            selectedStar={(rating) => this.setRating(rating)}
+            starSize={30}
+            fullStarColor={theme.colors.primary}
+            />
+        </View>
+        <View style={{height: 100}}>
+          <View style={{flex:1, flexDirection: 'row', alignItems: "center"}}>
+            <View style={{flex:1, flexDirection: 'column'}}>
+                        <Button
+              title="Good job"
+              titleStyle={{color: this.state.buttons[0].pressed ? 'white': theme.colors.primary}}
+              buttonStyle={this.state.buttons[0].pressed ? styles(theme).buttonPressed : styles(theme).button}
+              containerStyle={{marginLeft: '12.5%', width: '75%'}}
+              onPress={() => this.setButtons(0)}
               />
-              <TextInput
-                placeholder="Password"
-                placeholderTextColor="#cecece"
-                type='textinput'
-                value={this.password}
-                style={styles.input}
-                autoCapitalize="none"
-                keyboardType="email-address"
-                onChangeText={(value) => console.log(value)}
+            </View>
+            <View style={{flex:1, flexDirection: 'column'}}>
+              <Button
+                title="Amazing!"
+                titleStyle={{color: this.state.buttons[1].pressed ? 'white': theme.colors.primary}}
+                buttonStyle={this.state.buttons[1].pressed ? styles(theme).buttonPressed : styles(theme).button}
+                containerStyle={{marginLeft: '12.5%', width: '75%'}}
+                onPress={() => this.setButtons(1)}
               />
-              <Button title="LOG IN" style={styles.button} />
-              <Text style={{color: 'white', textAlign: 'center', padding: 10}}>Don’t have an account? Sign Up</Text>
-              <Text style={{color: 'white', textAlign: 'center', padding: 10}}>Continue as a guest</Text>
             </View>
           </View>
-        </ImageBackground>
+        </View>
+        <View style={{height: 100}}>
+          <View style={{flex:1, flexDirection: 'row', alignItems: "center"}}>
+            <View style={{flex:1, flexDirection: 'column'}}>
+                        <Button
+              title="Not Good"
+              titleStyle={{color: this.state.buttons[2].pressed ? 'white': theme.colors.primary}}
+              buttonStyle={this.state.buttons[2].pressed ? styles(theme).buttonPressed : styles(theme).button}
+              containerStyle={{marginLeft: '12.5%', width: '75%'}}
+              onPress={() => this.setButtons(2)}
+              />
+            </View>
+            <View style={{flex:1, flexDirection: 'column'}}>
+              <Button
+                title="Didn’t like it"
+                titleStyle={{color: this.state.buttons[3].pressed ? 'white': theme.colors.primary}}
+                buttonStyle={this.state.buttons[3].pressed ? styles(theme).buttonPressed : styles(theme).button}
+                containerStyle={{marginLeft: '12.5%', width: '75%'}}
+                onPress={() => this.setButtons(3)}
+              />
+            </View>
+          </View>
+        </View>
       </View>
     );
   }
@@ -88,4 +144,4 @@ function mapStateToProps(state) {
   return {
   };
 }
-export default connect(mapStateToProps, { })(Login);
+export default connect(mapStateToProps, { })(withTheme(Feedback));

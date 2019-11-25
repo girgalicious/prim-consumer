@@ -2,6 +2,11 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import RootNavigator from './routes';
 import { ThemeProvider } from 'react-native-elements';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import globalReducer from './reducers/global';
+
+const store = createStore(globalReducer);
 
 const theme = {
   colors: {
@@ -12,9 +17,11 @@ const theme = {
 
 const App = () => (
   <View style={styles.container}>
-    <ThemeProvider theme={theme}>
-      <RootNavigator />
-    </ThemeProvider>
+    <Provider store={ store }>
+      <ThemeProvider theme={theme}>
+        <RootNavigator/>
+      </ThemeProvider>
+    </Provider>
   </View>
 );
 
@@ -24,6 +31,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   }
 });
-
 
 export default App;

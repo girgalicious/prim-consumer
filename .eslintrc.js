@@ -13,6 +13,7 @@ module.exports = {
       'comma-dangle': 'off',
       "no-console": "off",
       "react/no-unused-prop-types": "off",
+      "indent": ["error", 4]
     },
     'globals': {
       "fetch": false

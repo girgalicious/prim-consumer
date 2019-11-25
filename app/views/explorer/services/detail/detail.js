@@ -3,6 +3,8 @@ import { ActivityIndicator, SafeAreaView, ScrollView, Dimensions, StyleSheet, Te
 import { connect } from 'react-redux';
 import StarRating from 'react-native-star-rating';
 import { Image, CheckBox, ListItem, Button, Avatar, Icon, withTheme, Divider, Rating } from 'react-native-elements';
+import { updateShowCartButton, addToCart, incrementCartTotal } from "../../../../actions/global";
+import Counter from "../../../../components/counter/counter";
 import haircut from '../../../../assets/images/haircut.png';
 import haircut_2 from '../../../../assets/images/haircut_2.png';
 import haircut_3 from '../../../../assets/images/haircut_3.png';
@@ -55,7 +57,14 @@ const photos = [
 ]
 
 class ServiceDetail extends Component {
-
+  state = {
+    clients: 1,
+    items: [
+      {title: 'Shampoo', description: 'Some description here. What this add service is include.', price: '$5', checked: false},
+      {title: 'Shampoo & Basic Style', description: 'Some description here. What this add service is include.', price: '$20', checked: false},
+      {title: 'Shampoo & Full Style', description: 'Some description here. What this add service is include.', price: '$30', checked: false}
+    ]
+  }
   constructor(props) {
     super(props);
   }
@@ -76,13 +85,32 @@ class ServiceDetail extends Component {
   componentWillReceiveProps() {
   };
 
-  checkItem = (item) => {
-    item.checked = !item.checked;
+  checkItem = (index) => {
+    this.setState(previousState => {
+      var items = Object.assign([], this.state.items);
+      items[index].checked = !items[index].checked;
+      return {
+        ...previousState,
+        items
+      }
+    })
   }
 
   addToCart = () => {
-
+    this.props.updateShowCartButton(true);
+    this.props.addToCart({id: 1, title: "Men's Haircut", price: '$50'})
+    this.props.incrementCartTotal(50 * this.state.clients);
+    this.props.navigation.navigate('ProviderDetail');
   }
+
+  onNumberOfClientsChange = (number, type) => {
+    this.setState(previousState => {
+      return {
+        ...previousState,
+        clients: number
+      }
+    })
+}
 
 render(){
 const { theme, updateTheme, replaceTheme, navigation } = this.props;
@@ -147,18 +175,15 @@ const provider = navigation.getParam('provider');
             </View>
             <View>
               <FlatList
-              data={[
-                {title: 'Shampoo', description: 'Some description here. What this add service is include.', price: '$5', checked: false},
-                {title: 'Shampoo & Basic Style', description: 'Some description here. What this add service is include.', price: '$20', checked: true},
-                {title: 'Shampoo & Full Style', description: 'Some description here. What this add service is include.', price: '$30', checked: false}
-              ]}
-              renderItem={({item}) =>
+              data={this.state.items}
+              extraData={this.props}
+              renderItem={({item, index}) =>
                 <View style={{top: -15}}>
                   <View style={{flex: 1, flexDirection: 'row', width: '90%'}}>
                     <View style={{flex: 1, flexDirection: 'column'}}>
                           <CheckBox
                             checked={item.checked}
-                            onPress={() => this.checkItem(item)}
+                            onPress={() => this.checkItem(index)}
                             containerStyle={{borderColor: 'white', backgroundColor: 'white'}}
                           />
                       </View>
@@ -175,6 +200,10 @@ const provider = navigation.getParam('provider');
                 </View>
               }
               />
+            </View>
+            <View style={{flex: 1, flexDirection: 'row', padding: 20}}>
+              <Text style={{fontSize: 15, fontWeight: 'bold'}}>How many clients?</Text>
+              <Counter start={1} onChange={this.onNumberOfClientsChange.bind(this)} />
             </View>
             <View style={{padding: 20}}>
               <Text style={{fontSize: 20, fontWeight: 'bold'}}>Work gallery</Text>
@@ -250,7 +279,7 @@ const provider = navigation.getParam('provider');
               />
             </View>
             <View style={{alignItems: "center"}}>
-              <Button title="ADD TO SERVICES CART" style={styles.button} onPress={() => console.log("CLICKED")} />
+              <Button title={"ADD 1 TO CART " + "$50"} style={styles.button} onPress={() => this.addToCart()} />
             </View>
           </ScrollView>
         </View>
@@ -263,4 +292,18 @@ function mapStateToProps(state) {
   return {
   };
 }
-export default connect(mapStateToProps, { })(withTheme(ServiceDetail));
+
+export function mapDispatchToProps(dispatch, ownProps) {
+    return {
+        updateShowCartButton: function(payload) {
+            dispatch(updateShowCartButton(payload));
+        },
+        addToCart: function(payload) {
+            dispatch(addToCart(payload));
+        },
+        incrementCartTotal: function(payload){
+          dispatch(incrementCartTotal(payload));
+        }
+    };
+}
+export default connect(mapStateToProps, mapDispatchToProps)(withTheme(ServiceDetail));

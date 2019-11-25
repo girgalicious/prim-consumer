@@ -44,11 +44,19 @@ class SignUp extends Component {
   componentWillReceiveProps() {
   }
 
+  login = () => {
+    this.props.navigation.navigate('Login');
+  }
+
+  signUp = () => {
+    this.props.navigation.navigate('Bottom');
+  }
+
   render() {
     return (
       <View style={{backgroundColor: '#E5E5E5'}}>
         <View style={{ justifyContent: "center", alignItems: "center", height: '50%' }}>
-          <Text style={{color: 'black', fontSize: 40, fontWeight: 'bold'}}>Sign Up</Text>
+          <Text style={{color: 'black', fontSize: 40, fontWeight: 'bold'}}>PRIM</Text>
         </View>
         <View style={{height: '50%', alignItems: "center"}}>
           <View>
@@ -82,8 +90,8 @@ class SignUp extends Component {
               keyboardType="email-address"
               onChangeText={(value) => console.log(value)}
             />
-            <Button title="SIGN UP" style={styles.button} />
-            <Text style={{textAlign: 'center', padding: 10}}>Have an account? Log In</Text>
+            <Button title="SIGN UP" style={styles.button} onPress={() => this.signUp()}/>
+            <Text style={{textAlign: 'center', padding: 10}} onPress={() => this.login()}>Have an account? Log In</Text>
           </View>
         </View>
       </View>

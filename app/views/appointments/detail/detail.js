@@ -31,7 +31,7 @@ class AppointmentDetail extends Component {
   componentDidMount() {
     this.props.navigation.setParams({
       leftPage: 'Appointments',
-      rightPage: '',
+      rightPage: 'AppointmentFeedback',
       isShownLeftOption: true,
       isShownRightOption: false,
       isRightOptionAsForm: false,
@@ -41,34 +41,40 @@ class AppointmentDetail extends Component {
   componentWillReceiveProps() {
   }
 
+  complete = () => {
+    this.props.navigation.navigate('AppointmentFeedback');
+  }
+
   render() {
     const { theme, updateTheme, replaceTheme } = this.props;
     return (
       <View style={{flex: 1}}>
         <View style={{flex: 1.5}}>
           <View style={{flex: 1, flexDirection: 'row'}}>
-          <View style={{width: '15%', height: 75, alignItems: "center", justifyContent: 'center'}}>
-            <Avatar rounded source={{
-              uri:
-                'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-            }} size={'medium'} containerStyle={{marginLeft: 25}}/>
-          </View>
-          <View style={{width: '45%', height: 75, alignItems: "center", justifyContent: 'center'}}>
-            <Text style={{fontWeight: 'bold'}}>Bessie Cooper</Text>
-            <Text style={{}}>Hair Dresser</Text>
-          </View>
-          <View style={{width: '20%', height: 75, alignItems: "center", justifyContent: 'center'}}>
-            <Avatar
-              rounded
-              icon={{name: 'phone', type: 'font-awesome'}}
-              size={'small'}
-              onPress={() => console.log("Works!")}
-              />
+            <View style={{width: '15%', height: 75, alignItems: "center", justifyContent: 'center'}}>
+              <Avatar rounded source={{
+                uri:
+                  'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
+              }} size={'medium'} containerStyle={{marginLeft: 25}}/>
+            </View>
+            <View style={{width: '45%', height: 75, alignItems: "center", justifyContent: 'center'}}>
+              <Text style={{fontWeight: 'bold'}}>Bessie Cooper</Text>
+              <Text style={{}}>Hair Dresser</Text>
+            </View>
+            <View style={{width: '20%', height: 75, alignItems: "center", justifyContent: 'center'}}>
+              <Avatar
+                rounded
+                icon={{name: 'phone', type: 'font-awesome', color: theme.colors.secondary}}
+                overlayContainerStyle={{backgroundColor: theme.colors.primary}}
+                size={'small'}
+                onPress={() => console.log("Works!")}
+                />
           </View>
           <View style={{width: '20%', height: 75, alignItems: "center", justifyContent: 'center'}}>
             <Avatar
             rounded
-            icon={{name: 'comments', type: 'font-awesome'}}
+            icon={{name: 'comments', type: 'font-awesome', color: theme.colors.secondary}}
+overlayContainerStyle={{backgroundColor: theme.colors.primary}}
             size={'small'}
             onPress={() => console.log("Works!")}
             />
@@ -136,7 +142,7 @@ class AppointmentDetail extends Component {
           </View>
         </View>
         <View style={{flex: 3, flexDirection: 'row', alignItems: "center", justifyContent: 'center'}}>
-          <Button title="COMPLETE APPOINTMENT" style={styles.button} />
+          <Button title="COMPLETE APPOINTMENT" style={styles.button} onPress={() => this.complete()}/>
         </View>
       </View>
     );
