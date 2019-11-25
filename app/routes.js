@@ -50,6 +50,7 @@ class PrimRouter extends Component {
     onRegister(token) {
       console.log("REGISTERING");
       console.log(token);
+      Alert.alert(token);
         //this.setState({ registerToken: token.token, gcmRegistered: true });
     }
 
