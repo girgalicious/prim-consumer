@@ -29,7 +29,7 @@ class ExplorerHome extends Component {
   }
 
   navigateToServices = (service) => {
-      this.props.navigation.navigate('ExplorerDetail', {
+      this.props.navigation.navigate('Providers', {
                             service: service
                           });
   }
@@ -39,7 +39,7 @@ class ExplorerHome extends Component {
 <View style={{flex: 1, flexDirection: 'column'}}>
   <View style={{height: "25%", flexDirection: 'row', borderBottomWidth: 2, borderBottomColor: 'white' }}>
     <View style={{flex: 3, flexDirection: 'column'}}>
-      <View style={{flex: 3}}>
+      <View style={{flex: 3, borderRadius: 5}}>
             <ImageBackground source={rectangle} style={{height: "100%", width: "100%",
         borderRightWidth: 2,
         borderRightColor: 'white', borderBottomWidth: 2, borderBottomColor: 'white', flex:1,justifyContent: "center",alignItems: "center"}}>

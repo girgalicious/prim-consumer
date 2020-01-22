@@ -8,6 +8,7 @@ import {
     Image,
     FlatList,
     TextInput,
+    TouchableOpacity,
 } from 'react-native';
 import {
     Button,
@@ -70,6 +71,14 @@ class Profile extends Component {
                 promoCode: text,
             };
         });
+    };
+
+    confirm = () => {
+        this.props.navigation.navigate('Confirmation');
+    };
+
+    navigateToCalendar = () => {
+        this.props.navigation.navigate('ProviderCalendar');
     };
 
     render() {
@@ -149,8 +158,39 @@ class Profile extends Component {
                 <View style={{flex: 1, flexDirection: 'row'}}>
                     <Text
                         style={{fontWeight: 'bold', fontSize: 15, padding: 20}}>
-                        Location
+                        Date & Time
                     </Text>
+                </View>
+                <View style={{flex: 1}}>
+                    <TouchableOpacity
+                        onPress={() => {
+                            this.navigateToCalendar();
+                        }}>
+                        <View style={{flex: 1, flexDirection: 'row'}}>
+                            <View
+                                style={{
+                                    width: '15%',
+                                    height: 75,
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                }}>
+                                <Icon
+                                    iconStyle={{marginLeft: 25}}
+                                    name="calendar"
+                                    type="font-awesome"
+                                />
+                            </View>
+                            <View
+                                style={{
+                                    width: '65%',
+                                    height: 75,
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                }}>
+                                <Text style={{}}>Aug 14, 1:30 PM</Text>
+                            </View>
+                        </View>
+                    </TouchableOpacity>
                 </View>
                 <View style={{flex: 1}}>
                     <View style={{flex: 1, flexDirection: 'row'}}>
@@ -250,7 +290,7 @@ class Profile extends Component {
                     <Button
                         title="CONFIRM"
                         style={styles.button}
-                        onPress={() => this.complete()}
+                        onPress={() => this.confirm()}
                     />
                 </View>
             </View>

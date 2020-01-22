@@ -11,7 +11,8 @@ const store = createStore(globalReducer);
 const theme = {
   colors: {
     primary: '#959754',
-    secondary: '#E5E5E5'
+    secondary: '#E5E5E5',
+    grey0: '#E6DBD4'
   }
 };
 

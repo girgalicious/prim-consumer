@@ -75,7 +75,7 @@ class ProviderDetail extends Component {
 
     componentDidMount() {
         this.props.navigation.setParams({
-            leftPage: 'HomePage',
+            leftPage: 'Providers',
             rightPage: '',
             isShownLeftOption: true,
             isShownRightOption: false,

@@ -8,6 +8,9 @@ import {
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import {Icon, withTheme} from 'react-native-elements';
 
+import Messages from './views/messages/messages';
+import MessageDetails from './views/messages/details/details';
+
 import Settings from './views/settings/Settings';
 import EditProfile from './views/settings/profile/profile';
 import Help from './views/settings/help/help';
@@ -21,11 +24,13 @@ import AppointmentDetail from './views/appointments/detail/detail';
 import AppointmentFeedback from './views/appointments/feedback/feedback';
 
 import ExplorerHome from './views/explorer/Home';
-import ExplorerDetail from './views/explorer/detail/detail';
+import Providers from './views/explorer/providers/providers';
 import Card from './components/provider/card';
 import ProviderDetail from './views/explorer/providers/detail/detail';
 import ServiceDetail from './views/explorer/services/detail/detail';
+import ProviderCalendar from './views/explorer/providers/calendar/calendar';
 import Cart from './views/explorer/cart/cart';
+import Confirmation from './views/explorer/confirmation/confirmation';
 
 import Login from './views/account/login/login';
 import ResetPassword from './views/account/reset/reset';
@@ -43,20 +48,23 @@ import NotifService from './utils/notifications/notifications';
 class PrimRouter extends Component {
     constructor(props) {
         super(props);
-        this.notif = new NotifService(this.onRegister.bind(this), this.onNotif.bind(this));
-        this.notif.configure(this.onRegister.bind(this), this.onNotif.bind(this), '')
+        this.notif = new NotifService(
+            this.onRegister.bind(this),
+            this.onNotif.bind(this),
+        );
+        this.notif.configure(
+            this.onRegister.bind(this),
+            this.onNotif.bind(this),
+            '',
+        );
     }
 
     onRegister(token) {
-      console.log("REGISTERING");
-      console.log(token);
-      Alert.alert(token);
-        //this.setState({ registerToken: token.token, gcmRegistered: true });
+        console.log(token);
     }
 
     onNotif(notif) {
         console.log(notif);
-        Alert.alert(notif.title, notif.message);
     }
 
     handlePerm(perms) {
@@ -139,9 +147,10 @@ class PrimRouter extends Component {
         const ExplorerStack = createStackNavigator(
             {
                 HomePage: ExplorerHome,
-                ExplorerDetail,
+                Providers,
                 Card,
                 Cart,
+                ProviderCalendar,
                 ProviderDetail: {
                     screen: ProviderDetail,
                     navigationOptions: ({navigation}) => ({
@@ -200,6 +209,13 @@ class PrimRouter extends Component {
             headerConf,
         );
 
+        const ConfirmationStack = createStackNavigator(
+            {
+                Confirmation: Confirmation,
+            },
+            {headerMode: 'none'},
+        );
+
         const AppointmentsStack = createStackNavigator(
             {
                 Appointments: Appointments,
@@ -208,6 +224,67 @@ class PrimRouter extends Component {
             },
             headerConf,
         );
+
+        const MessagesStack = createStackNavigator(
+            {
+                Messages: Messages,
+                MessageDetails: {
+                    screen: MessageDetails,
+                    navigationOptions: ({navigation}) => ({
+                        headerTransparent: true,
+                        headerStyle: {
+                            color: 'white',
+                            backgroundColor: 'white',
+                            borderBottomColor: theme.colors.secondary,
+                            borderBottomWidth: 1,
+                        },
+                        headerTitle: 'Bessie Cooper',
+                        headerLeft: (
+                            <TouchableOpacity
+                                onPress={() => {
+                                    navigation.navigate(
+                                        navigation.getParam('leftPage'),
+                                    );
+                                }}>
+                                <Icon
+                                    name="arrow-left"
+                                    color="black"
+                                    type="font-awesome"
+                                    iconStyle={{marginLeft: 25}}
+                                />
+                            </TouchableOpacity>
+                        ),
+                        headerRight: (
+                            <TouchableOpacity
+                                onPress={() => {
+                                    navigation.navigate(
+                                        navigation.getParam('leftPage'),
+                                    );
+                                }}>
+                                <Icon
+                                    name="ellipsis-h"
+                                    color="black"
+                                    type="font-awesome"
+                                    iconStyle={{marginRight: 25}}
+                                />
+                            </TouchableOpacity>
+                        ),
+                    }),
+                },
+            },
+            headerConf,
+        );
+
+        MessagesStack.navigationOptions = ({navigation}) => {
+            let tabBarVisible = true;
+            if (navigation.state.index > 0) {
+                tabBarVisible = false;
+            }
+
+            return {
+                tabBarVisible,
+            };
+        };
 
         const ProfileStack = createStackNavigator(
             {
@@ -226,6 +303,7 @@ class PrimRouter extends Component {
             {
                 HomePage: ExplorerStack,
                 Appointments: AppointmentsStack,
+                Messages: MessagesStack,
                 Profile: ProfileStack,
             },
             {
@@ -272,6 +350,20 @@ class PrimRouter extends Component {
                                 />
                             );
                         }
+                        if (routeName === 'Messages') {
+                            return (
+                                <Icon
+                                    iconStyle={{}}
+                                    color={
+                                        focused
+                                            ? theme.colors.primary
+                                            : theme.colors.secondary
+                                    }
+                                    name="comments"
+                                    type="font-awesome"
+                                />
+                            );
+                        }
                         if (routeName === 'Appointments') {
                             return (
                                 <Icon
@@ -297,10 +389,12 @@ class PrimRouter extends Component {
             createSwitchNavigator(
                 {
                     Login: LoginStack,
+                    Confirmation: ConfirmationStack,
                     SignUp: SignUpStack,
                     ResetPassword: ResetPasswordStack,
                     HomePage: ExplorerStack,
                     Appointments: AppointmentsStack,
+                    Messages: MessagesStack,
                     Profile: ProfileStack,
                     Bottom: BottomStack,
                 },
